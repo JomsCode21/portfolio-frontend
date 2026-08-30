@@ -15,16 +15,13 @@ export default function Hero({ settings }) {
           <a className="button primary" href="#projects">
             View projects <ArrowDown size={17} />
           </a>
-          {settings.resumeUrl && (
-            <a
-              className="button secondary"
-              href={settings.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Resume <Download size={17} />
-            </a>
-          )}
+          <a
+            className="button secondary"
+            href="/JJGALOS-RESUME.pdf"
+            download="Jhumari-Job-Galos-Resume.pdf"
+          >
+            Resume <Download size={17} />
+          </a>
           <Link className="text-link" to="/contact">
             Contact me <ArrowUpRight size={17} />
           </Link>

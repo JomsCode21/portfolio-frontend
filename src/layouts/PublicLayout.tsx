@@ -17,10 +17,10 @@ export default function PublicLayout() {
   const profile = data || {};
   return (
     <>
-      <header className="sticky top-0 z-10 h-16 border-b border-[#26344d] bg-[#0b1120]/95 backdrop-blur md:h-[78px]">
-        <div className="mx-auto flex h-full w-[calc(100%-30px)] max-w-[1120px] items-center justify-between md:w-[calc(100%-40px)]">
+      <header className="sticky top-0 z-10 h-16 border-b border-[#26344d] bg-[#0b1120]/95 backdrop-blur md:h-19.5">
+        <div className="mx-auto flex h-full w-[calc(100%-30px)] max-w-280 items-center justify-between md:w-[calc(100%-40px)]">
           <Link
-            className="grid size-[38px] place-items-center rounded-[9px] border border-[#38bdf8] font-['DM_Mono'] text-sm font-extrabold text-[#38bdf8]"
+            className="grid size-9.5 place-items-center rounded-[9px] border border-[#38bdf8] font-['DM_Mono'] text-sm font-extrabold text-[#38bdf8]"
             to="/"
           >
             {profile.name
@@ -33,8 +33,8 @@ export default function PublicLayout() {
           <nav
             className={
               open
-                ? 'absolute inset-x-0 top-16 flex flex-col items-stretch gap-1 border-b border-[#26344d] bg-[#111a2d] p-[15px] text-sm text-[#9aa8bd] md:static md:flex md:flex-row md:items-center md:gap-[26px] md:border-0 md:bg-transparent md:p-0'
-                : 'hidden text-sm text-[#9aa8bd] md:flex md:items-center md:gap-[26px]'
+                ? 'absolute inset-x-0 top-16 flex flex-col items-stretch gap-1 border-b border-[#26344d] bg-[#111a2d] p-3.75 text-sm text-[#9aa8bd] md:static md:flex md:flex-row md:items-center md:gap-6.5 md:border-0 md:bg-transparent md:p-0'
+                : 'hidden text-sm text-[#9aa8bd] md:flex md:items-center md:gap-6.5'
             }
           >
             {links.map(([to, label]) => (
@@ -59,7 +59,7 @@ export default function PublicLayout() {
       </header>
       <main>{loading ? <Loader /> : <Outlet context={{ settings: profile }} />}</main>
       <footer className="py-7 text-xs text-[#9aa8bd]">
-        <div className="mx-auto flex w-[calc(100%-30px)] max-w-[1120px] flex-col gap-2 md:w-[calc(100%-40px)] md:flex-row md:justify-between">
+        <div className="mx-auto flex w-[calc(100%-30px)] max-w-280 flex-col gap-2 md:w-[calc(100%-40px)] md:flex-row md:justify-between">
           <span>
             © {new Date().getFullYear()} {profile.name || 'Jhumari Job Galos'}.{' '}
             {profile.footerText || 'All rights resereved.'}

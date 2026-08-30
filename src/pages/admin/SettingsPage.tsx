@@ -13,7 +13,6 @@ const fields = [
   ['location', 'Location'],
   ['github', 'GitHub URL', 'url'],
   ['linkedin', 'LinkedIn URL', 'url'],
-  ['resumeUrl', 'Resume URL', 'url'],
   ['profileImage', 'Profile image URL', 'url'],
   ['footerText', 'Footer text'],
 ];
