@@ -1,4 +1,4 @@
-import { ExternalLink, Github, LoaderCircle, Mail, Menu, X } from 'lucide-react';
+import { ExternalLink, Github, Linkedin, LoaderCircle, Mail, Menu, X } from 'lucide-react';
 export const Loader = () => (
   <div className="loader" role="status">
     <LoaderCircle size={24} /> Loading…
@@ -63,22 +63,42 @@ export function ProjectCard({ project }) {
 }
 export function SocialLinks({ settings }) {
   return (
-    <div className="social-links">
-      <a href={settings.github} aria-label="GitHub" target="_blank" rel="noreferrer">
-        <Github size={20} />
+    <div className="mt-9 flex gap-3">
+      <a
+        className="inline-flex size-[38px] items-center justify-center rounded-full border border-[#26344d] text-[#9aa8bd] transition-colors hover:border-[#38bdf8] hover:text-[#38bdf8]"
+        href={settings.github}
+        aria-label="GitHub"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Github />
       </a>
-      <a href={settings.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer">
-        in
+      <a
+        className="inline-flex size-[38px] items-center justify-center rounded-full border border-[#26344d] text-[#9aa8bd] transition-colors hover:border-[#38bdf8] hover:text-[#38bdf8]"
+        href={settings.linkedin}
+        aria-label="LinkedIn"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Linkedin />
       </a>
-      <a href={`mailto:${settings.email}`} aria-label="Email">
-        <Mail size={20} />
+      <a
+        className="inline-flex size-[38px] items-center justify-center rounded-full border border-[#26344d] text-[#9aa8bd] transition-colors hover:border-[#38bdf8] hover:text-[#38bdf8]"
+        href={`mailto:${settings.email}`}
+        aria-label="Email"
+      >
+        <Mail />
       </a>
     </div>
   );
 }
 export function MobileMenu({ open, setOpen }) {
   return (
-    <button className="mobile-menu" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
+    <button
+      className="border-0 bg-transparent p-2 text-[#e7edf7] md:hidden"
+      onClick={() => setOpen(!open)}
+      aria-label="Toggle navigation"
+    >
       {open ? <X /> : <Menu />}
     </button>
   );
