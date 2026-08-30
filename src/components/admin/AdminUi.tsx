@@ -1,13 +1,4 @@
-import { AlertTriangle, Check, X } from 'lucide-react';
-export const Toast = ({ toast, onClose }) =>
-  toast ? (
-    <div className={`toast ${toast.type}`} role="status">
-      {toast.type === 'error' ? <AlertTriangle size={17} /> : <Check size={17} />} {toast.text}
-      <button onClick={onClose} aria-label="Dismiss">
-        <X size={16} />
-      </button>
-    </div>
-  ) : null;
+export { Toast } from '../Ui';
 export function ConfirmDialog({ message, onCancel, onConfirm }) {
   return (
     <div className="modal-backdrop" role="presentation">

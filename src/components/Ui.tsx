@@ -1,4 +1,15 @@
-import { ExternalLink, Github, Linkedin, LoaderCircle, Mail, Menu, X } from 'lucide-react';
+import { useEffect } from 'react';
+import {
+  AlertTriangle,
+  Check,
+  ExternalLink,
+  Github,
+  Linkedin,
+  LoaderCircle,
+  Mail,
+  Menu,
+  X,
+} from 'lucide-react';
 export const Loader = () => (
   <div className="loader" role="status">
     <LoaderCircle size={24} /> Loading…
@@ -12,6 +23,26 @@ export const ErrorState = ({ message }) => (
 export const EmptyState = ({ label = 'Nothing here yet.' }) => (
   <div className="empty-state">{label}</div>
 );
+export function Toast({ toast, onClose }) {
+  useEffect(() => {
+    if (!toast) return undefined;
+
+    const timeout = window.setTimeout(onClose, 5000);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
+
+  if (!toast) return null;
+
+  return (
+    <div className={`toast ${toast.type}`} role={toast.type === 'error' ? 'alert' : 'status'}>
+      {toast.type === 'error' ? <AlertTriangle size={17} /> : <Check size={17} />}
+      {toast.text}
+      <button onClick={onClose} aria-label="Dismiss notification">
+        <X size={16} />
+      </button>
+    </div>
+  );
+}
 export function ProjectCard({ project }) {
   return (
     <article className="project-card">

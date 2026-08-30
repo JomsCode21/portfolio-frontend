@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Save } from 'lucide-react';
+import { Bell, BellOff, Save } from 'lucide-react';
 import { settings } from '../../services/portfolioService';
 import { Loader, ErrorState } from '../../components/Ui';
 import { Toast } from '../../components/admin/AdminUi';
+import {
+  disablePushNotifications,
+  enablePushNotifications,
+  pushNotificationStatus,
+} from '../../services/pushNotifications';
 const fields = [
   ['name', 'Full name'],
   ['title', 'Developer title'],
@@ -20,12 +25,19 @@ export default function SettingsPage() {
   const [form, setForm] = useState(null),
     [error, setError] = useState(''),
     [saving, setSaving] = useState(false),
+    [pushStatus, setPushStatus] = useState({
+      supported: false,
+      enabled: false,
+      permission: 'default',
+    }),
+    [updatingPush, setUpdatingPush] = useState(false),
     [toast, setToast] = useState(null);
   useEffect(() => {
     settings
       .get()
       .then((r) => setForm(r.data))
       .catch((e) => setError(e.message));
+    pushNotificationStatus().then(setPushStatus);
   }, []);
   const save = async (e) => {
     e.preventDefault();
@@ -37,6 +49,23 @@ export default function SettingsPage() {
       setToast({ type: 'error', text: err.message });
     } finally {
       setSaving(false);
+    }
+  };
+  const updatePush = async () => {
+    setUpdatingPush(true);
+    try {
+      const status = pushStatus.enabled
+        ? await disablePushNotifications()
+        : await enablePushNotifications();
+      setPushStatus(status);
+      setToast({
+        type: 'success',
+        text: status.enabled ? 'Browser notifications enabled.' : 'Browser notifications disabled.',
+      });
+    } catch (err) {
+      setToast({ type: 'error', text: err.message });
+    } finally {
+      setUpdatingPush(false);
     }
   };
   if (error) return <ErrorState message={error} />;
@@ -89,6 +118,35 @@ export default function SettingsPage() {
           )}
         </button>
       </form>
+      <section className="notification-settings">
+        <div>
+          <p className="eyebrow">Contact alerts</p>
+          <h2>Browser notifications</h2>
+          <p>
+            Get an alert on this device whenever a visitor sends a contact message. Email alerts are
+            delivered separately through your configured mailbox.
+          </p>
+          {!pushStatus.supported && (
+            <small>This browser does not support push notifications.</small>
+          )}
+          {pushStatus.permission === 'denied' && (
+            <small>Notifications are blocked in your browser settings for this site.</small>
+          )}
+        </div>
+        <button
+          className={pushStatus.enabled ? 'button secondary' : 'button primary'}
+          type="button"
+          disabled={updatingPush || !pushStatus.supported || pushStatus.permission === 'denied'}
+          onClick={updatePush}
+        >
+          {pushStatus.enabled ? <BellOff size={17} /> : <Bell size={17} />}
+          {updatingPush
+            ? 'Updating…'
+            : pushStatus.enabled
+              ? 'Disable browser alerts'
+              : 'Enable browser alerts'}
+        </button>
+      </section>
       <Toast toast={toast} onClose={() => setToast(null)} />
     </>
   );

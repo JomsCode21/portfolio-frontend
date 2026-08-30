@@ -2,21 +2,21 @@ import { useState } from 'react';
 import { Mail, MapPin, Send } from 'lucide-react';
 import SectionTitle from './SectionTitle';
 import { contact } from '../services/portfolioService';
-import { SocialLinks } from '../components/Ui';
+import { SocialLinks, Toast } from '../components/Ui';
 export default function Contact({ settings }) {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus] = useState({ type: '', text: '' });
+  const [toast, setToast] = useState(null);
   const [sending, setSending] = useState(false);
   const submit = async (e) => {
     e.preventDefault();
     setSending(true);
-    setStatus({ type: '', text: '' });
+    setToast(null);
     try {
       const r = await contact.send(form);
-      setStatus({ type: 'success', text: r.message });
+      setToast({ type: 'success', text: r.message });
       setForm({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      setStatus({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
     } finally {
       setSending(false);
     }
@@ -87,18 +87,6 @@ export default function Contact({ settings }) {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
             />
           </label>
-          {status.text && (
-            <p
-              className={
-                status.type === 'success'
-                  ? 'm-0 text-[0.86rem] text-[#6ee7b7]'
-                  : 'm-0 text-[0.86rem] text-[#fca5a5]'
-              }
-              role="status"
-            >
-              {status.text}
-            </p>
-          )}
           <button
             className="inline-flex w-full items-center justify-center gap-2 rounded-[7px] border border-transparent bg-[#38bdf8] px-[15px] py-[11px] text-[0.85rem] font-bold text-[#07111e] transition hover:bg-[#7dd3fc] disabled:cursor-not-allowed disabled:opacity-65"
             disabled={sending}
@@ -113,6 +101,7 @@ export default function Contact({ settings }) {
           </button>
         </form>
       </div>
+      <Toast toast={toast} onClose={() => setToast(null)} />
     </section>
   );
 }

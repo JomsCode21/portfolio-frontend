@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { MailOpen } from 'lucide-react';
+import { CalendarDays, Clock3, Mail, X } from 'lucide-react';
 import { contact } from '../../services/portfolioService';
 import { AdminTable, ConfirmDialog, Toast } from '../../components/admin/AdminUi';
 import { Loader, ErrorState } from '../../components/Ui';
-import { dateLabel } from '../../utils/format';
+import { arrivalDate, arrivalTime } from '../../utils/format';
+
 export default function MessagesPage() {
   const [rows, setRows] = useState([]),
     [loading, setLoading] = useState(true),
@@ -20,6 +21,7 @@ export default function MessagesPage() {
       .finally(() => setLoading(false));
   };
   useEffect(load, []);
+
   const open = async (row) => {
     try {
       const r = await contact.get(row._id);
@@ -40,6 +42,7 @@ export default function MessagesPage() {
       setToast({ type: 'error', text: e.message });
     }
   };
+
   return (
     <>
       <section className="admin-page-head">
@@ -68,7 +71,16 @@ export default function MessagesPage() {
               ),
             },
             { key: 'subject', label: 'Subject' },
-            { key: 'createdAt', label: 'Received', render: (r) => dateLabel(r.createdAt) },
+            {
+              key: 'createdAt',
+              label: 'Received',
+              render: (r) => (
+                <span className="received-at">
+                  <strong>{arrivalDate(r.createdAt)}</strong>
+                  <small>{arrivalTime(r.createdAt)}</small>
+                </span>
+              ),
+            },
           ]}
           onEdit={open}
           onDelete={setDeleting}
@@ -76,19 +88,56 @@ export default function MessagesPage() {
         />
       )}
       {selected && (
-        <div className="modal-backdrop">
-          <article className="message-modal">
-            <button className="modal-close" onClick={() => setSelected(null)}>
-              ×
+        <div className="modal-backdrop" onMouseDown={() => setSelected(null)}>
+          <article
+            className="message-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="message-subject"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <button
+              className="modal-close"
+              onClick={() => setSelected(null)}
+              aria-label="Close message"
+            >
+              <X size={18} />
             </button>
-            <MailOpen />
-            <p className="eyebrow">{dateLabel(selected.createdAt)}</p>
-            <h2>{selected.subject}</h2>
-            <p className="message-from">
-              From <strong>{selected.name}</strong> ·{' '}
-              <a href={`mailto:${selected.email}`}>{selected.email}</a>
-            </p>
-            <p className="message-body">{selected.message}</p>
+            <div className="message-modal-head">
+              <span className="message-icon">
+                <Mail size={21} />
+              </span>
+              <div>
+                <p className="eyebrow">New message</p>
+                <h2 id="message-subject">{selected.subject}</h2>
+              </div>
+            </div>
+            <div className="message-sender">
+              <span className="sender-avatar" aria-hidden="true">
+                {selected.name?.slice(0, 1).toUpperCase() || '?'}
+              </span>
+              <div>
+                <span>From</span>
+                <strong>{selected.name}</strong>
+                <a href={`mailto:${selected.email}`}>{selected.email}</a>
+              </div>
+            </div>
+            <div className="message-arrival">
+              <CalendarDays size={17} />
+              <div>
+                <span>Arrived on</span>
+                <time dateTime={selected.createdAt}>{arrivalDate(selected.createdAt)}</time>
+              </div>
+              <Clock3 size={17} />
+              <div>
+                <span>Time of arrival</span>
+                <time dateTime={selected.createdAt}>{arrivalTime(selected.createdAt)}</time>
+              </div>
+            </div>
+            <div className="message-content">
+              <span>Message</span>
+              <p className="message-body">{selected.message}</p>
+            </div>
           </article>
         </div>
       )}

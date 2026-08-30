@@ -2,25 +2,26 @@ import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { LockKeyhole } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { Toast } from '../../components/Ui';
 export default function LoginPage() {
   const { user, login } = useAuth();
   const nav = useNavigate(),
     location = useLocation();
   const [form, setForm] = useState({ email: '', password: '' }),
-    [error, setError] = useState(''),
+    [toast, setToast] = useState(null),
     [loading, setLoading] = useState(false);
   if (user) return <Navigate to="/admin/dashboard" replace />;
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setToast(null);
     try {
       await login(form);
       nav(location.state?.from?.pathname || '/admin/dashboard', {
         replace: true,
       });
     } catch (err) {
-      setError(err.message);
+      setToast({ type: 'error', text: err.message });
     } finally {
       setLoading(false);
     }
@@ -53,11 +54,11 @@ export default function LoginPage() {
             onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
         </label>
-        {error && <p className="error-message">{error}</p>}
         <button className="button primary" disabled={loading}>
           {loading ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
+      <Toast toast={toast} onClose={() => setToast(null)} />
     </main>
   );
 }
