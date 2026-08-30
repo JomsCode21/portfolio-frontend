@@ -5,7 +5,6 @@ import AdminLayout from './layouts/AdminLayout';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
-import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/admin/LoginPage';
 import DashboardPage from './pages/admin/DashboardPage';
 import {
@@ -42,7 +41,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/contact" element={<Navigate to="/#contact" replace />} />
       </Route>
       <Route path="/admin/login" element={<LoginPage />} />
       <Route

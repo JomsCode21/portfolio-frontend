@@ -1,11 +1,13 @@
 import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { SocialLinks } from '../components/Ui';
 export default function Hero({ settings }) {
+  const availableForWork = settings.availableForWork !== false;
   return (
     <section className="hero shell" id="top">
       <div className="hero-copy">
-        <span className="eyebrow">Available for thoughtful work</span>
+        <span className="eyebrow">
+          {availableForWork ? 'Available for thoughtful work' : 'Currently unavailable'}
+        </span>
         <h1>
           Hi, I’m <em>{settings.name || 'Jhumari Job Galos'}.</em>
         </h1>
@@ -22,16 +24,16 @@ export default function Hero({ settings }) {
           >
             Resume <Download size={17} />
           </a>
-          <Link className="text-link" to="/contact">
-            Contact me <ArrowUpRight size={17} />
-          </Link>
+          <a className="text-link" href="/#contact">
+            Letâ€™s talk <ArrowUpRight size={17} />
+          </a>
         </div>
         <SocialLinks settings={settings} />
       </div>
       <aside className="hero-aside">
         <p>01 — 04</p>
-        <div className="status-dot">
-          <i /> Open to opportunities
+        <div className={`status-dot ${availableForWork ? 'is-available' : 'is-unavailable'}`}>
+          <i /> {availableForWork ? 'Open to opportunities' : 'Currently unavailable'}
         </div>
         <span>Building practical digital products from idea to deployment.</span>
       </aside>

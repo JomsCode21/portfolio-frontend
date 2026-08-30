@@ -862,6 +862,9 @@ img {
   background: #34d399;
   border-radius: 50%;
 }
+.status-dot.is-unavailable i {
+  background: var(--danger);
+}
 .section {
   padding: 112px 0;
   border-bottom: 1px solid var(--line);

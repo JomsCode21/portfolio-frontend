@@ -7,7 +7,10 @@ export interface Settings {
   name: string;
   title: string;
   tagline: string;
+  aboutHeading: string;
   bio: string;
+  focus: string;
+  approach: string;
   email: string;
   phone: string;
   location: string;

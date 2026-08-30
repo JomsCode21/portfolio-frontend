@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { useFetch } from '../hooks/useFetch';
 import { settings } from '../services/portfolioService';
@@ -9,7 +9,6 @@ const links = [
   ['/#about', 'About'],
   ['/#skills', 'Skills'],
   ['/#projects', 'Projects'],
-  ['/#contact', 'Contact'],
 ];
 export default function PublicLayout() {
   const { data, loading } = useFetch(settings.get);
@@ -47,13 +46,13 @@ export default function PublicLayout() {
                 {label}
               </a>
             ))}
-            <Link
+            <a
               className="flex items-center gap-1 rounded-[7px] border border-[#26344d] p-2.5 text-[#e7edf7] transition-colors hover:border-[#38bdf8] hover:text-[#38bdf8] md:px-3 md:py-2"
-              to="/contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
             >
               Let’s talk <ArrowUpRight size={15} />
-            </Link>
+            </a>
           </nav>
         </div>
       </header>

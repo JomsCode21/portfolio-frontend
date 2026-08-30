@@ -2,7 +2,10 @@ import SectionTitle from './SectionTitle';
 export default function About({ settings }) {
   return (
     <section id="about" className="section shell about">
-      <SectionTitle eyebrow="About me" title="A practical, curious full-stack developer." />
+      <SectionTitle
+        eyebrow="About me"
+        title={settings.aboutHeading || 'A practical, curious full-stack developer.'}
+      />
       <div className="about-grid">
         <p className="lead">
           {settings.bio ||
@@ -11,7 +14,7 @@ export default function About({ settings }) {
         <div className="details">
           <div>
             <span>Focus</span>
-            <strong>Full-stack applications</strong>
+            <strong>{settings.focus || 'Full-stack applications'}</strong>
           </div>
           <div>
             <span>Based in</span>
@@ -19,7 +22,7 @@ export default function About({ settings }) {
           </div>
           <div>
             <span>Approach</span>
-            <strong>Thoughtful, iterative, user-centred</strong>
+            <strong>{settings.approach || 'Thoughtful, iterative, user-centred'}</strong>
           </div>
         </div>
       </div>
