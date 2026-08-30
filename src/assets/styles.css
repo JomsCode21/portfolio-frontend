@@ -300,12 +300,13 @@ td small {
 }
 .toast {
   position: fixed;
-  right: 22px;
-  bottom: 22px;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
   z-index: 30;
   display: flex;
   align-items: center;
   gap: 8px;
+  max-width: calc(100vw - 32px);
   padding: 12px;
   background: #173a31;
   border: 1px solid #24634f;
@@ -313,6 +314,7 @@ td small {
   border-radius: 7px;
   font-size: 0.83rem;
   box-shadow: 0 8px 25px #0007;
+  overflow-wrap: anywhere;
 }
 .toast.error {
   background: #431f28;
@@ -323,6 +325,7 @@ td small {
   border: 0;
   color: inherit;
   margin-left: 5px;
+  flex: 0 0 auto;
 }
 .message-modal {
   width: min(100%, 600px);
