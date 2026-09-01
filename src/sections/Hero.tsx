@@ -25,7 +25,7 @@ export default function Hero({ settings }) {
             Resume <Download size={17} />
           </a>
           <a className="text-link" href="/#contact">
-            Letâ€™s talk <ArrowUpRight size={17} />
+            Let&apos;s talk <ArrowUpRight size={17} />
           </a>
         </div>
         <SocialLinks settings={settings} />
