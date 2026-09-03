@@ -9,6 +9,14 @@ export const settings = {
   get: () => unwrap(api.get('/settings')),
   update: (data) => unwrap(api.put('/settings', data)),
 };
+export const uploads = {
+  resume: (file) =>
+    unwrap(
+      api.post('/uploads/resume', file, {
+        headers: { 'Content-Type': file.type || 'application/pdf' },
+      }),
+    ),
+};
 export const contact = {
   send: (data) => unwrap(api.post('/contact', data)),
   list: () => unwrap(api.get('/contact')),

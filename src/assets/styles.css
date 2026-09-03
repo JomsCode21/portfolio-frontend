@@ -485,7 +485,43 @@ td small {
   gap: 8px;
   font-size: 0.86rem !important;
 }
+.resume-uploader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 17px;
+  border: 1px dashed #34506e;
+  border-radius: 8px;
+  background: #0d1829;
+}
+.resume-uploader-copy,
+.resume-uploader-actions {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.resume-uploader-copy > svg {
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+.resume-uploader-copy strong {
+  display: block;
+  font-size: 0.88rem;
+}
+.resume-uploader-copy p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
 @media (max-width: 760px) {
+  .resume-uploader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .resume-uploader-actions {
+    flex-wrap: wrap;
+  }
   .shell {
     width: min(100% - 30px, 1120px);
   }

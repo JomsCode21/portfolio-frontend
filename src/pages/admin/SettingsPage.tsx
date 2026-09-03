@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Bell, BellOff, Save } from 'lucide-react';
-import { settings } from '../../services/portfolioService';
+import { useEffect, useRef, useState } from 'react';
+import { Bell, BellOff, FileText, Save, Upload } from 'lucide-react';
+import { settings, uploads } from '../../services/portfolioService';
 import { Loader, ErrorState } from '../../components/Ui';
 import { Toast } from '../../components/admin/AdminUi';
 import {
@@ -34,7 +34,9 @@ export default function SettingsPage() {
       permission: 'default',
     }),
     [updatingPush, setUpdatingPush] = useState(false),
-    [toast, setToast] = useState(null);
+    [toast, setToast] = useState(null),
+    [uploadingResume, setUploadingResume] = useState(false);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     settings
       .get()
@@ -69,6 +71,29 @@ export default function SettingsPage() {
       setToast({ type: 'error', text: err.message });
     } finally {
       setUpdatingPush(false);
+    }
+  };
+  const uploadResume = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (file.type !== 'application/pdf' || !file.name.toLowerCase().endsWith('.pdf')) {
+      setToast({ type: 'error', text: 'Please select a PDF resume.' });
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setToast({ type: 'error', text: 'Resume files must be 10 MB or smaller.' });
+      return;
+    }
+    setUploadingResume(true);
+    try {
+      const response = await uploads.resume(file);
+      setForm(response.data);
+      setToast({ type: 'success', text: 'Resume uploaded and published.' });
+    } catch (err) {
+      setToast({ type: 'error', text: err.message });
+    } finally {
+      setUploadingResume(false);
     }
   };
   if (error) return <ErrorState message={error} />;
@@ -110,6 +135,46 @@ export default function SettingsPage() {
             />{' '}
             Available for work
           </label>
+          <section className="resume-uploader full" aria-labelledby="resume-uploader-title">
+            <div className="resume-uploader-copy">
+              <FileText size={22} aria-hidden="true" />
+              <div>
+                <strong id="resume-uploader-title">Resume PDF</strong>
+                <p>
+                  {form.resumeUrl
+                    ? 'A resume is live. Uploading another PDF will replace it.'
+                    : 'Upload the PDF that visitors can download from your portfolio.'}
+                </p>
+              </div>
+            </div>
+            <div className="resume-uploader-actions">
+              {form.resumeUrl && (
+                <a
+                  href={form.resumeUrl}
+                  className="button secondary"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Download current
+                </a>
+              )}
+              <button
+                className="button secondary"
+                type="button"
+                disabled={uploadingResume}
+                onClick={() => resumeInputRef.current?.click()}
+              >
+                <Upload size={17} /> {uploadingResume ? 'Uploading…' : 'Upload PDF'}
+              </button>
+              <input
+                ref={resumeInputRef}
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={uploadResume}
+                hidden
+              />
+            </div>
+          </section>
         </div>
         <button className="button primary" disabled={saving}>
           {saving ? (

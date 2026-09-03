@@ -19,7 +19,7 @@ export default function Hero({ settings }) {
           </a>
           <a
             className="button secondary"
-            href="/JJGALOS%20RESUME.pdf"
+            href={settings.resumeUrl || '/JJGALOS%20RESUME.pdf'}
             download="Jhumari-Job-Galos-Resume.pdf"
           >
             Resume <Download size={17} />

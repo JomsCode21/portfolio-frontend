@@ -16,6 +16,7 @@ export interface Settings {
   location: string;
   github: string;
   linkedin: string;
+  resumeUrl: string;
   profileImage: string;
   availableForWork: boolean;
   footerText: string;
