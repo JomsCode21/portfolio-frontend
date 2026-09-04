@@ -2,8 +2,9 @@ import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import { SocialLinks } from '../components/Ui';
 export default function Hero({ settings }) {
   const availableForWork = settings.availableForWork !== false;
+  const heroImageUrl = settings.heroImageUrl?.trim();
   return (
-    <section className="hero shell" id="top">
+    <section className={`hero shell${heroImageUrl ? ' with-image' : ''}`} id="top">
       <div className="hero-copy">
         <span className="eyebrow">
           {availableForWork ? 'Available for thoughtful work' : 'Currently unavailable'}
@@ -30,6 +31,15 @@ export default function Hero({ settings }) {
         </div>
         <SocialLinks settings={settings} />
       </div>
+      {heroImageUrl && (
+        <div className="hero-image-wrap">
+          <img
+            className="hero-image"
+            src={heroImageUrl}
+            alt={`Portrait of ${settings.name || 'Jhumari Job Galos'}`}
+          />
+        </div>
+      )}
       <aside className="hero-aside">
         <p>01 — 04</p>
         <div className={`status-dot ${availableForWork ? 'is-available' : 'is-unavailable'}`}>

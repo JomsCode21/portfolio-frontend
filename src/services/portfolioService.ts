@@ -16,6 +16,12 @@ export const uploads = {
         headers: { 'Content-Type': file.type || 'application/pdf' },
       }),
     ),
+  heroImage: (file) =>
+    unwrap(
+      api.post('/uploads/hero-image', file, {
+        headers: { 'Content-Type': file.type },
+      }),
+    ),
 };
 export const contact = {
   send: (data) => unwrap(api.post('/contact', data)),

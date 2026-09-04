@@ -766,6 +766,28 @@ img {
   align-items: center;
   border-bottom: 1px solid var(--line);
 }
+.hero.with-image {
+  grid-template-columns: minmax(0, 1fr) 300px 180px;
+  gap: 32px;
+}
+.hero.with-image h1 {
+  font-size: clamp(2.8rem, 4.8vw, 4.6rem);
+}
+.hero-image-wrap {
+  align-self: center;
+  height: 380px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 .eyebrow {
   display: block;
   text-transform: uppercase;
@@ -1327,6 +1349,14 @@ footer {
     min-height: auto;
     padding: 90px 0 65px;
     gap: 40px;
+  }
+  .hero.with-image {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hero-image-wrap {
+    width: min(100%, 440px);
+    height: 390px;
   }
   .hero-aside {
     height: auto;

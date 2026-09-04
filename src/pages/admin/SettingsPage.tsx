@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Bell, BellOff, FileText, Save, Upload } from 'lucide-react';
+import { Bell, BellOff, FileText, Image, Save, Upload } from 'lucide-react';
 import { settings, uploads } from '../../services/portfolioService';
 import { Loader, ErrorState } from '../../components/Ui';
 import { Toast } from '../../components/admin/AdminUi';
@@ -35,8 +35,10 @@ export default function SettingsPage() {
     }),
     [updatingPush, setUpdatingPush] = useState(false),
     [toast, setToast] = useState(null),
-    [uploadingResume, setUploadingResume] = useState(false);
+    [uploadingResume, setUploadingResume] = useState(false),
+    [uploadingHeroImage, setUploadingHeroImage] = useState(false);
   const resumeInputRef = useRef<HTMLInputElement>(null);
+  const heroImageInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     settings
       .get()
@@ -94,6 +96,29 @@ export default function SettingsPage() {
       setToast({ type: 'error', text: err.message });
     } finally {
       setUploadingResume(false);
+    }
+  };
+  const uploadHeroImage = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setToast({ type: 'error', text: 'Please select a JPEG, PNG, or WebP image.' });
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      setToast({ type: 'error', text: 'Hero image uploads must be 20 MB or smaller.' });
+      return;
+    }
+    setUploadingHeroImage(true);
+    try {
+      const response = await uploads.heroImage(file);
+      setForm(response.data);
+      setToast({ type: 'success', text: 'Hero image uploaded and published.' });
+    } catch (err) {
+      setToast({ type: 'error', text: err.message });
+    } finally {
+      setUploadingHeroImage(false);
     }
   };
   if (error) return <ErrorState message={error} />;
@@ -171,6 +196,46 @@ export default function SettingsPage() {
                 type="file"
                 accept="application/pdf,.pdf"
                 onChange={uploadResume}
+                hidden
+              />
+            </div>
+          </section>
+          <section className="resume-uploader full" aria-labelledby="hero-image-uploader-title">
+            <div className="resume-uploader-copy">
+              <Image size={22} aria-hidden="true" />
+              <div>
+                <strong id="hero-image-uploader-title">Hero image</strong>
+                <p>
+                  {form.heroImageUrl
+                    ? 'This image is live in the hero section. Uploading another image will replace it.'
+                    : 'Upload a portrait or professional image for the hero section.'}
+                </p>
+              </div>
+            </div>
+            <div className="resume-uploader-actions">
+              {form.heroImageUrl && (
+                <a
+                  href={form.heroImageUrl}
+                  className="button secondary"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View current
+                </a>
+              )}
+              <button
+                className="button secondary"
+                type="button"
+                disabled={uploadingHeroImage}
+                onClick={() => heroImageInputRef.current?.click()}
+              >
+                <Upload size={17} /> {uploadingHeroImage ? 'Uploadingâ€¦' : 'Upload image'}
+              </button>
+              <input
+                ref={heroImageInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                onChange={uploadHeroImage}
                 hidden
               />
             </div>
