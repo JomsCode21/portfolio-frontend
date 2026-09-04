@@ -97,13 +97,13 @@
   justify-content: flex-end;
   padding: 0 36px;
 }
-.admin-header div {
+.admin-user {
   display: flex;
   flex-direction: column;
   text-align: right;
   font-size: 0.78rem;
 }
-.admin-header span {
+.admin-user span {
   color: var(--muted);
   font-size: 0.7rem;
 }
@@ -1818,5 +1818,36 @@ th,
   .public-footer-inner {
     flex-direction: column;
     gap: 8px;
+  }
+}
+
+/* Admin surfaces use the same tokens as the public portfolio. */
+.login-page {
+  position: relative;
+}
+.login-theme-toggle {
+  position: fixed;
+  top: max(20px, env(safe-area-inset-top));
+  right: max(20px, env(safe-area-inset-right));
+  z-index: 1;
+}
+.admin-header > .theme-toggle {
+  margin-right: 2px;
+}
+.login-icon {
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel));
+  color: var(--accent);
+}
+.message-icon,
+.sender-avatar {
+  background: color-mix(in srgb, var(--accent) 13%, var(--panel));
+  color: var(--accent);
+}
+.message-icon {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+@media (max-width: 760px) {
+  .admin-header > .theme-toggle {
+    margin-left: auto;
   }
 }
