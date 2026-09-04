@@ -34,6 +34,7 @@ export interface Project {
   technologies?: string[];
   features?: string[];
   githubUrl?: string;
+  githubBackendUrl?: string;
   liveUrl?: string;
   featured: boolean;
   order: number;

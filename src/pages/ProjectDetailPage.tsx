@@ -53,7 +53,12 @@ export default function ProjectDetailPage() {
           <div className="detail-links">
             {data.githubUrl && (
               <a href={data.githubUrl} target="_blank" rel="noreferrer">
-                <Github size={17} /> Source code
+                <Github size={17} /> Frontend repository
+              </a>
+            )}
+            {data.githubBackendUrl && (
+              <a href={data.githubBackendUrl} target="_blank" rel="noreferrer">
+                <Github size={17} /> Backend repository
               </a>
             )}
             {data.liveUrl && (

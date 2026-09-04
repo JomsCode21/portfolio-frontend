@@ -69,10 +69,22 @@ export function ProjectCard({ project }) {
           </a>
           {project.githubUrl && (
             <a
-              aria-label={`${project.title} GitHub repository`}
+              aria-label={`${project.title} frontend GitHub repository`}
               href={project.githubUrl}
               target="_blank"
               rel="noreferrer"
+              title="Frontend repository"
+            >
+              <Github size={18} />
+            </a>
+          )}
+          {project.githubBackendUrl && (
+            <a
+              aria-label={`${project.title} backend GitHub repository`}
+              href={project.githubBackendUrl}
+              target="_blank"
+              rel="noreferrer"
+              title="Backend repository"
             >
               <Github size={18} />
             </a>
