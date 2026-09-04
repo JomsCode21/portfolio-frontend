@@ -670,6 +670,19 @@ td small {
   background: var(--bg);
   line-height: 1.6;
 }
+
+/* Light mode uses stronger ink colors so body copy remains comfortably readable. */
+:root[data-theme='light'] {
+  --bg: #f7faff;
+  --panel: #ffffff;
+  --panel2: #eef5fc;
+  --text: #102a4c;
+  --muted: #38516f;
+  --line: #c7d7e8;
+  --accent: #006eaf;
+  --accent-dark: #005b91;
+  --danger: #dc2626;
+}
 * {
   box-sizing: border-box;
 }
@@ -679,6 +692,10 @@ html {
 body {
   margin: 0;
   background: var(--bg);
+  color: var(--text);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 a {
   color: inherit;
@@ -1489,5 +1506,317 @@ footer {
   .notification-settings {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+/* Public navigation and theme control */
+.public-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 78px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+.public-header-inner,
+.public-footer-inner {
+  width: min(1120px, calc(100% - 40px));
+  margin: auto;
+}
+.public-header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.public-brand {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  color: var(--accent);
+  font: 800 0.9rem 'DM Mono';
+}
+.public-nav-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.public-nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+.public-nav-link {
+  transition: color 0.2s ease;
+}
+.public-nav-link:hover {
+  color: var(--accent);
+}
+.public-nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+.public-nav-cta:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.theme-toggle {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--muted);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.theme-toggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset: 3px;
+}
+.theme-toggle svg {
+  position: absolute;
+  transition:
+    transform 0.35s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.25s ease;
+}
+.theme-toggle-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.55);
+}
+.theme-toggle-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+:root[data-theme='light'] .theme-toggle-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+:root[data-theme='light'] .theme-toggle-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.55);
+}
+.public-footer {
+  padding: 28px 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.public-footer-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Theme-aware replacements for the page components that use Tailwind utilities. */
+.section-title {
+  max-width: 700px;
+  margin-bottom: 56px;
+}
+.section-title > span {
+  display: block;
+  margin-bottom: 17px;
+  color: var(--accent);
+  font: 500 0.68rem 'DM Mono';
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.section-title h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.section-title p {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.contact-content {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 75px;
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.contact-detail-link,
+.contact-detail-text {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.contact-detail-link:hover {
+  color: var(--accent);
+}
+.contact-submit {
+  width: 100%;
+}
+
+/* Surfaces that were originally fixed to the dark palette. */
+.contact-form input,
+.contact-form textarea,
+.form-grid input,
+.form-grid textarea,
+.form-grid select,
+.login-card input {
+  background: var(--panel2);
+}
+.lead {
+  color: color-mix(in srgb, var(--text) 82%, var(--bg));
+}
+.project-image {
+  background: var(--panel2);
+  color: color-mix(in srgb, var(--muted) 68%, var(--panel2));
+}
+.badges span {
+  background: color-mix(in srgb, var(--accent) 11%, var(--panel));
+  color: color-mix(in srgb, var(--accent) 62%, var(--text));
+}
+.site-header {
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+}
+.admin-shell {
+  background: var(--bg);
+}
+.admin-sidebar,
+.login-card,
+.table-wrap,
+.settings-form,
+.notification-settings,
+.resource-modal,
+.confirm-dialog,
+.message-modal,
+.stat-card {
+  background: var(--panel);
+}
+.admin-sidebar nav a.active,
+.admin-sidebar nav a:hover,
+.modal-close:hover {
+  background: var(--panel2);
+}
+th,
+.message-arrival {
+  background: var(--panel2);
+}
+.admin-tip {
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--line));
+}
+.resume-uploader {
+  background: var(--panel2);
+  border-color: color-mix(in srgb, var(--muted) 55%, var(--line));
+}
+.message-body {
+  color: color-mix(in srgb, var(--text) 88%, var(--muted));
+}
+.login-page {
+  background:
+    radial-gradient(
+      circle at top right,
+      color-mix(in srgb, var(--accent) 22%, transparent) 0,
+      transparent 38%
+    ),
+    var(--bg);
+}
+
+/* Expand the freshly applied theme outward from the toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+  animation-name: theme-reveal;
+}
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-toggle-x) var(--theme-toggle-y));
+  }
+  to {
+    clip-path: circle(150vmax at var(--theme-toggle-x) var(--theme-toggle-y));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+@media (max-width: 760px) {
+  .public-header {
+    height: 64px;
+  }
+  .public-header-inner,
+  .public-footer-inner {
+    width: min(1120px, calc(100% - 30px));
+  }
+  .public-nav {
+    display: none;
+    position: absolute;
+    inset: 64px 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding: 15px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
+  .public-nav.open {
+    display: flex;
+  }
+  .public-nav-link {
+    padding: 10px;
+  }
+  .public-nav-cta {
+    padding: 10px;
+  }
+  .section-title {
+    margin-bottom: 44px;
+  }
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .public-footer-inner {
+    flex-direction: column;
+    gap: 8px;
   }
 }
