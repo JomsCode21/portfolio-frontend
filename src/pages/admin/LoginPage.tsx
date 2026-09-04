@@ -3,6 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { LockKeyhole } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Toast } from '../../components/Ui';
+import ThemeToggle from '../../components/ThemeToggle';
 export default function LoginPage() {
   const { user, login } = useAuth();
   const nav = useNavigate(),
@@ -28,6 +29,9 @@ export default function LoginPage() {
   };
   return (
     <main className="login-page">
+      <div className="login-theme-toggle">
+        <ThemeToggle />
+      </div>
       <form onSubmit={submit} className="login-card">
         <span className="login-icon">
           <LockKeyhole />

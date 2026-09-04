@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ThemeToggle from '../components/ThemeToggle';
 import type { LucideIcon } from 'lucide-react';
 const items: [string, LucideIcon, string][] = [
   ['dashboard', BarChart3, 'Overview'],
@@ -55,7 +56,8 @@ export default function AdminLayout() {
           >
             <Menu />
           </button>
-          <div>
+          <ThemeToggle />
+          <div className="admin-user">
             <strong>{user?.name || 'Administrator'}</strong>
             <span>{user?.email}</span>
           </div>
